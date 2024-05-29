@@ -7,7 +7,9 @@ const projets = await listeProjets.json();
 const listeCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await listeCategories.json();
 
-console.log("-------------------------------------- NEXT EN DESSOUS --------------------------------------");
-console.log("");
+modules.startTests()
 modules.createProjets(projets);
 modules.createFilters(categories, projets);
+let isConnected = modules.isConnected();
+
+modules.listenLogoutLink()

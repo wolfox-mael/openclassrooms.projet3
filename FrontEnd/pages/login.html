@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="/FrontEnd/assets/style.css">
 	<script type="module" src="/FrontEnd/scripts/login.js" defer></script>
-	<script type="module" src="/FrontEnd/scripts/main.js" defer></script>
 </head>
 
 <body>
@@ -33,20 +33,31 @@
 		</nav>
 	</header>
 	<main>
-		<section id="login">
-			<h2>Log In</h2>
-			<form action="#" method="post">
-				<label for="email">Email</label>
-				<input type="email" name="email" id="email" value="sophie.bluel@test.tld">
-				<label for="password">Mot de passe</label>
-				<input type="password" name="password" id="password" value="S0phie"></input>
-				<input type="submit" value="Se connecter">
-
-                <div>
-                    <a href="#">Mot de passe oublié</a>
-                </div>
-			</form>
-		</section>
+			<section id="login">
+				<h2>Log In</h2>
+				<form action="#" method="post">
+					<div id="error">
+						<h3>Erreur</h3>
+						<h3>L'adresse mail ou le mot de passe ne correspondent pas</h3>
+					</div>
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email" value="sophie.bluel@test.tld" required>
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" id="password" value="S0phie" required></input>
+					<input type="submit" value="Se connecter">
+			
+					<div>
+						<a href="#">Mot de passe oublié</a>
+					</div>
+				</form>
+			</section>
+		<!-- <div id="cover">
+			<div id="logout">
+				<h2>Log Out</h2>
+				<h3>Êtes vous sûr de vouloir vous déconnecter ?</h3>
+				<button id="logout-oui">Oui</button><Button id="logout-non">Non</Button>
+			</div>
+		</div> -->
 	</main>
 
 	<footer>
