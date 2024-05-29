@@ -143,8 +143,10 @@ body {
 	font-size: 14px;
 }
 
-header #header {
+header #header,
+header {
 	display: flex;
+	width: 100%;
 	justify-content: space-between;
 }
 
@@ -371,7 +373,7 @@ footer nav ul {
 }
 
 
-#logout {
+.popup {
 	background-color: white;
 	position: fixed;
 	top: 30%;
@@ -384,12 +386,12 @@ footer nav ul {
 
 }
 
-#logout h3 {
+.popup h3 {
 	margin-top: 20px;
 	margin-bottom: 50px;
 }
 
-#logout button {
+.popup button {
 	margin: 10px;
 	width: 40%;
 	background-color: #1D6154;
@@ -402,13 +404,14 @@ footer nav ul {
 	border-radius: 20px;
 }
 
-button, input[type= submit] {
+button,
+input[type=submit] {
 	cursor: pointer;
 }
 
 
 header {
-	position: relative;
+	padding-top: 40px;
 }
 
 #editing-mode {
@@ -423,7 +426,62 @@ header {
 	left: 0;
 }
 
-#editing-mode h3{
+#editing-mode h3 {
 	margin: 0;
 	padding: 5px;
+}
+
+#portfolio h2 {
+	position: relative;
+}
+
+#portfolio h2 span {
+	position: absolute;
+	top: 10px;
+	margin-left: 40px;
+	font-size: small;
+	color: black;
+	cursor: pointer;
+}
+
+#portfolio h2 i {
+	margin-right: 10px;
+}
+
+#edit {
+	width: 40%;
+	padding: 20px;
+	position: absolute;
+	top: 50%;
+}
+
+#allProjetcts {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	display: grid;
+	grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
+	gap: 10px;
+	padding-bottom: 50px;
+	border-bottom: 1px solid gray;
+
+}
+
+#allProjetcts div {
+	position: relative;
+}
+
+#allProjetcts div i {
+	position: absolute;
+	font-size: 15px;
+	border-radius: 5px;
+	right: 5px;
+	top: 5px;
+	color: white;
+	background-color: black;
+	padding: 5px;
+	cursor: pointer;
+}
+
+#allProjetcts div img {
+	width: 100%;
 }

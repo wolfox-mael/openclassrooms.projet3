@@ -12,4 +12,5 @@ modules.createProjets(projets);
 modules.createFilters(categories, projets);
 let isConnected = modules.isConnected();
 
-modules.listenLogoutLink()
+modules.listenLogoutLink();
+modules.editPopup();

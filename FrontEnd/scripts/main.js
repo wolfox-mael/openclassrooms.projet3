@@ -87,25 +87,7 @@ function listenFilters(projets) {
 
 // Login / Logout
 
-const loginDiv = document.querySelector("#login");
 const localStorage = window.localStorage;
-
-const nav = document.querySelectorAll("nav li");
-const navLink = document.querySelectorAll("nav a");
-let loginNav = undefined;
-let loginNavLink = undefined;
-
-nav.forEach(element => {
-    if (element.innerText === "login") {
-        loginNav = element;
-    }
-});
-
-navLink.forEach(element => {
-    if (element.innerText === "login") {
-        loginNavLink = element;
-    }
-});
 
 export function askLogout() {
     const mainDiv = document.querySelector("main");
@@ -115,6 +97,7 @@ export function askLogout() {
 
     const logoutDiv = document.createElement("div");
     logoutDiv.setAttribute("id", "logout");
+    logoutDiv.setAttribute("class", "popup");
     logoutCover.appendChild(logoutDiv);
 
     const logoutH2 = document.createElement("h2");
@@ -141,16 +124,21 @@ export function askLogout() {
 };
 
 export function editMode(boolean) {
-    const header = document.querySelector("header");
     const editingModeDiv = document.querySelector("#editing-mode");
-    const testeu = document.querySelector("header");
-    let innerTest = testeu.innerHTML
+    const header = document.querySelector("header");
+    let headerInnerHTML = header.innerHTML;
+    const mesProjetsTitres = document.querySelector("#portfolio h2");
+    let mesProjetsTitresInnerHTML = mesProjetsTitres.innerHTML;
+    console.log(mesProjetsTitres.innerHTML);
 
     if (boolean) {
-        testeu.innerHTML = '<div id="editing-mode"><h3><i class="fa-regular fa-pen-to-square"></i> Mode édition</h3></div>' + innerTest;
+        header.innerHTML = '<div id="editing-mode"><h3><i class="fa-regular fa-pen-to-square"></i> Mode édition</h3></div>' + headerInnerHTML;
+        mesProjetsTitres.innerHTML = mesProjetsTitresInnerHTML + '<span><i class="fa-regular fa-pen-to-square"></i>modifier</span>';
         header.style.paddingTop = "100px";
+        listenEditProjects();
     } else {
-        testeu.innerHTML = testeu.innerHTML.replace('<div id="editing-mode"><h3><i class="fa-regular fa-pen-to-square"></i> Mode édition</h3></div>', "");
+        header.innerHTML = header.innerHTML.replace('<div id="editing-mode"><h3><i class="fa-regular fa-pen-to-square"></i> Mode édition</h3></div>', "");
+        mesProjetsTitres.innerHTML = mesProjetsTitres.innerHTML.replace('<span><i class="fa-regular fa-pen-to-square"></i>modifier</span>', "");
         header.style.paddingTop = "40px";
     }
 }
@@ -235,3 +223,83 @@ export function listenLogout() {
         });
     });
 };
+
+function editPopupListener() {
+    const logoutCover = document.querySelector("#cover");
+    const logoutButtons = document.querySelector("#edit button");
+
+    logoutCover.addEventListener("click", event => {
+        if (event.target === logoutCover) logoutCover.remove();
+    });
+
+    logoutButtons.addEventListener("click", event => {
+        console.log(logoutButtons);
+            
+        });
+}
+
+export async function editPopup() {
+    const listeProjets = await fetch("http://localhost:5678/api/works");
+    const projets = await listeProjets.json();
+
+    const mainDiv = document.querySelector("main");
+
+    const editPopupCover = document.createElement("div");
+    editPopupCover.setAttribute("id", "cover");
+
+    const editPopupDiv = document.createElement("div");
+    editPopupDiv.setAttribute("id", "edit");
+    editPopupDiv.setAttribute("class", "popup");
+    editPopupCover.appendChild(editPopupDiv);
+
+    const editPopupH2 = document.createElement("h2");
+    editPopupH2.innerText = "Galerie photo";
+    editPopupDiv.appendChild(editPopupH2);
+    
+    const allProjetcts = document.createElement("div");
+    allProjetcts.setAttribute("id", "allProjetcts");
+    editPopupDiv.appendChild(allProjetcts);
+
+    allProjetcts.innerHTML = "";
+
+    for (let i = 0; i < projets.length; i++) {
+        const element = projets[i];
+        let figure = document.createElement("figure");
+        figure.dataset.id = element.id;
+        figure.dataset.category_id = element.category.id;
+
+        let elementDiv = document.createElement("div");
+
+        let deleteIcon = document.createElement("i")
+        deleteIcon.setAttribute("class", "fa-solid fa-trash-can")
+        elementDiv.appendChild(deleteIcon);
+
+        let image = document.createElement("img");
+        image.setAttribute("src", element.imageUrl);
+        elementDiv.appendChild(image);
+        
+
+        figure.appendChild(elementDiv);
+
+
+
+        allProjetcts.appendChild(figure);
+    };
+
+    const editPopupAddPictureButton = document.createElement("button");
+    editPopupAddPictureButton.setAttribute("id", "logout-non");
+    editPopupAddPictureButton.innerText = "Ajouter une photo";
+    editPopupDiv.appendChild(editPopupAddPictureButton);
+
+    mainDiv.appendChild(editPopupCover);
+
+    editPopupListener();
+}
+
+export function listenEditProjects() {
+    const editButton = document.querySelector("#portfolio h2 span");
+    editButton.addEventListener("click", event => {
+        console.log("testeu");
+        editPopup()
+    });
+}
