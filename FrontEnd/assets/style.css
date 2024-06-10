@@ -172,7 +172,6 @@ h1>span {
 	font-family: 'Work Sans';
 	font-size: 10px;
 	letter-spacing: 0.1em;
-	;
 }
 
 h2 {
@@ -252,7 +251,6 @@ li:hover {
 #contact>*,
 #login>* {
 	text-align: center;
-
 }
 
 #contact h2,
@@ -343,9 +341,6 @@ footer nav ul {
 }
 
 .filtres h3:hover {
-	border: 1px solid #0E2F28;
-	background-color: #0E2F28;
-	color: white;
 	cursor: pointer;
 }
 
@@ -449,10 +444,115 @@ header {
 }
 
 #edit {
-	width: 40%;
-	padding: 20px;
+	width: 584px;
+	height: 648px;
+	padding: 70px;
+	padding-top: 40px;
+	padding-bottom: 40px;
 	position: absolute;
 	top: 50%;
+}
+
+#edit h2 {
+	font-family: 'Work Sans';
+	color: black;
+	font-weight: 400;
+}
+
+#edit form {
+	margin-top: 40px;
+	border-bottom: 2px solid #B3B3B3;
+	padding-bottom: 40px;
+}
+
+#edit form #image-div {
+	background-color: #E8F1F6;
+	cursor: pointer;
+	border-radius: 10px;
+	height: 180px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-evenly;
+	align-items: stretch;
+	align-content: stretch;
+}
+
+#edit form #image-div img {
+	object-fit: contain;
+	max-height: 180px;
+}
+
+#edit form #image-div i {
+	font-size: 90px;
+	color: #B9C5CC;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#edit form #image-div h4 {
+	color: #306685;
+	font-size: 20px;
+	background-color: #B9C5CC;
+	padding: 10px;
+	border-radius: 20px;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#edit form #image-div p {
+	color: #B9C5CC;
+	color: black;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#edit form #form-div {
+	width: 100%;
+	margin-top: 20px;
+}
+
+#edit form #form-div label {
+	float: left;
+}
+
+#edit form #form-div input {
+	width: 544px;
+	padding: 20px;
+	border: 0;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+#edit form #form-div select {
+	width: 584px;
+	padding: 20px;
+	border: 0;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+#edit #close-icon {
+	position: absolute;
+	font-size: 20px;
+	right: 25px;
+	top: 25px;
+	cursor: pointer;
+}
+
+#edit #back-icon {
+	position: absolute;
+	font-size: 20px;
+	left: 25px;
+	top: 25px;
+	cursor: pointer;
 }
 
 #allProjetcts {
@@ -484,4 +584,34 @@ header {
 
 #allProjetcts div img {
 	width: 100%;
+}
+
+button[id="valider"] {
+	margin-top: 50px;
+	background-color: grey;
+	cursor: not-allowed;
+}
+
+#error-message {
+	color: red;
+	margin-top: 20px;
+}
+
+input[type=file] {
+	display: none;
+}
+
+label span {
+	padding: 8px 12px;
+	background: #084cdf;
+	color: #fff;
+	cursor: pointer;
+}
+
+label span:hover {
+	background: #0d45a5;
+}
+
+form #image-div {
+	background-color: red;
 }

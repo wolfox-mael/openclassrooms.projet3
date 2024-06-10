@@ -1,7 +1,3 @@
-import * as modules from "./main.js";
-
-modules.startTests();
-
 const loginDiv = document.querySelector("#login");
 const localStorage = window.localStorage;
 
@@ -9,6 +5,8 @@ const nav = document.querySelectorAll("nav li");
 const navLink = document.querySelectorAll("nav a");
 let loginNav = undefined;
 let loginNavLink = undefined;
+
+if (localStorage.token !== undefined) window.location.href = "/FrontEnd/index.html";
 
 nav.forEach(element => {
     if (element.innerText === "login") {
@@ -41,19 +39,7 @@ loginDiv.addEventListener("submit", async event => {
     const email = loginMail.value;
     const password = loginPassword.value;
 
-    // mail = sophie.bluel@test.tld
-    // password = S0phie
-
-    // token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4"
-
-
-    const bonMail = "sophie.bluel@test.tld";
-    const bonPassword = "S0phie";
-
     // [a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+
-
-
 
     const properties = {
         email: email,
@@ -66,41 +52,28 @@ loginDiv.addEventListener("submit", async event => {
     // if (bonMail !== email) return loginMail.setCustomValidity("L'adresse mail n'est pas bonne");
     // if (bonPassword !== password) return loginPassword.setCustomValidity("Le mot de passe n'est pas bon");
 
+    let responseCode
     const reponse = await fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: propertie
-    });
-
-    console.log(reponse.status);
+    }).then(response => response.json()).then(data => {
+        responseCode = 200;
+        localStorage.setItem("token", data.token);
+    })
 
     const errorText = document.querySelectorAll("#login #error");
 
-    switch (reponse.status) {
-        case 404:
-            console.log("yap");
+    switch (responseCode) {
+        case 200:
+            window.location.href = "/FrontEnd/index.html";
+            break;
+        default:
             errorText.forEach(element => {
                 element.style.display = "inline";
             });
             break;
-        case 200:
-            console.log("Connecté");
-            localStorage.setItem("token", token);
-            window.location.href = "/FrontEnd/index.html";
-            break;
-
-        default:
-            break;
-    }
-
-
-
-
-
-    console.log(reponse);
-    console.log(reponse.ok);
-    modules.isConnected();
-
+    };
 });
