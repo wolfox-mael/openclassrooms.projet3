@@ -1,3 +1,13 @@
+/* 
+
+Ce fichier n'est plus utile.
+Toutes les fonctions ont été déplacé dans d'autre fichiers
+
+*/
+
+
+/*
+
 // Temporaire
 export function startTests() {
     console.log("-------------------- NEXT EN DESSOUS ------------------");
@@ -375,27 +385,6 @@ async function editPopupAddPhotoListener() {
         };
         input.click();
 
-
-        {
-            /*
-                    const propertie = {
-                        title: "",
-                        imageUrl: "",
-                        categoryId: ""
-                    }
-                    const listeProjets = await fetch("http://localhost:5678/api/works", {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: propertie
-                    });
-                    //const projets = await listeProjets.json();
-                    
-                    console.log("wow");
-                    //*/
-        }
-
     });
 
     editCover.addEventListener("click", event => {
@@ -665,7 +654,10 @@ async function createEditPopupAjoutPhoto() {
     }
 
     formDivCategory.appendChild(formDivCategoryInputDatalist)
-    formDivCategory.appendChild(formDivCategoryInput);*/
+    formDivCategory.appendChild(formDivCategoryInput);//
+
+
+
     formDivCategory.appendChild(formDivCategorySelect)
     formDiv.appendChild(formDivCategory);
 
@@ -768,3 +760,5 @@ async function removeProject(id) {
 
     console.log(response);
 };
+
+*/

@@ -1,4 +1,4 @@
-import * as modules from "./main.js";
+//import * as modules from "./main.js";
 
 import * as projects from "./projects.js";
 
@@ -14,7 +14,7 @@ const projets = await listeProjets.json();
 const listeCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await listeCategories.json();
 
-modules.startTests()
+//modules.startTests();
 projects.createProjets(projets);
 projects.createFilters();
 

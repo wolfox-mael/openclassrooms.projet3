@@ -250,7 +250,7 @@ async function createEditPopupAjoutPhoto() {
     editPopupForm.setAttribute("enctype", "multipart/form-data");
     editPopupForm.setAttribute("method", "post");
     editPopupForm.setAttribute("name", "new-project");
-    
+
 
     // ICI
 
@@ -414,7 +414,7 @@ async function editPopupAddPhotoListener() {
             if (goodFileType === true) {
                 if (errorMessageExist !== null) errorMessageExist.remove();
                 const addProjectImage = document.createElement("img");
-                let test = input.files[0].text()
+                input.files[0].text()
 
                 let fr = new FileReader();
 
@@ -422,7 +422,7 @@ async function editPopupAddPhotoListener() {
                     addProjectImage.src = fr.result
                 }
                 file = fr.readAsDataURL(files[0])
-                editAddPhotoDiv.innerHTML = ""
+                //editAddPhotoDiv.innerHTML = ""
                 editAddPhotoDiv.appendChild(addProjectImage)
                 imgValid = true
                 isFormCompleted(imgValid, titleValid);
@@ -468,6 +468,7 @@ async function editPopupAddPhotoListener() {
 
 };
 
+// Vérification du formulaire pour donner l'accès au bouton
 function isFormCompleted(imgStatus, titleStatus) {
     const validAddProject = document.querySelector("#edit button");
     validAddProject.style.backgroundColor = "grey";
@@ -478,17 +479,25 @@ function isFormCompleted(imgStatus, titleStatus) {
     };
 };
 
-async function sendProject() {
+// Envois du projet au serveur
+async function sendProject(event) {
+    event.preventDefault();
+
     const editCover = document.querySelector("#cover");
     const editCloseIcon = document.querySelector("#edit #close-icon");
     const editBackIcon = document.querySelector("#edit #back-icon");
-    const editAddPhotoDiv = document.querySelector("#image-div");
+    const editAddPhotoDiv = document.querySelector("#image-div input");
     const editFormDiv = document.querySelector("#form-div");
     const editForm = document.querySelector("#edit form");
-    const editInput = document.querySelector("#edit input");
+    const editInput = document.querySelector("#edit #form-div input");
     const editSelect = document.querySelector("#edit select");
     const editAddPhotoImg = document.querySelector("#image-div img");
 
+
+    console.log(editAddPhotoDiv.files[0]);
+    console.log(editInput.value);
+    console.log(editSelect.value);
+    console.log("Je suis ICI");
     let category
 
     switch (editSelect.value.toLowerCase()) {
@@ -506,34 +515,44 @@ async function sendProject() {
             console.log("Il y'a une erreur dans la catégorie.");
             break;
     };
-      
-        // on construit un objet FormData qui déclenche
-        // l'évènement formdata
-        new FormData(editForm);
+
+    const projet = new FormData();
+    projet.append("title", editInput.value);
+    projet.append("image", editAddPhotoDiv.files[0]);
+    projet.append("category", parseInt(category));
+
+    console.log(projet);
+    console.log(editInput.value);
+    console.log(editAddPhotoDiv.files[0]);
+    console.log(category);
 
 
 
-        console.log("formdata déclenché");
-      
-        // On récupère les données du formulaire depuis
-        // l'objet représentant l'évènement
-        const data = formData;
-        for (const value of data.values()) {
-          console.log(value);
-        }
-      
-        await fetch(`http://localhost:5678/api/works`, {
+    console.log("formdata déclenché");
+
+    await fetch(`http://localhost:5678/api/works`, {
             method: "POST",
-            headers: {
+            headers: new Headers({
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                'Content-Type': 'application/json'
-                },
-                //*
+            }),
             body: {
-                data
+                projet
             }
-            //*/
-        }).then(response => console.log(response));
+
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Erreur lors de l'envoi de l'image : " + response.statusText)
+            }
+            return response.json()
+        })
+        .then((result) => {
+            console.log(result)
+            alert('Image ajoutée avec succès')
+        })
+        .catch((error) => {
+            console.error("Erreur lors de l'envoi de l'image :", error)
+            alert("Erreur lors de l'envoi de l'image : " + error.message)
+        });
 
 
     return;
@@ -558,8 +577,8 @@ async function sendProject() {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             'Content-Type': 'application/json'
-            },
-            //*
+        },
+        //*
         body: {
             image: editAddPhotoImg.src,
             title: "editInput.value",
