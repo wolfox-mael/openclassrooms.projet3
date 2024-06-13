@@ -378,7 +378,16 @@ footer nav ul {
 	padding: 20px;
 	border-radius: 20px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
 
+.popup #popup-intern {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: stretch;
+	height: max-content;
 }
 
 .popup h3 {
@@ -463,6 +472,9 @@ header {
 	margin-top: 40px;
 	border-bottom: 2px solid #B3B3B3;
 	padding-bottom: 40px;
+	height: 480px;
+	max-height: 480px;
+	margin-bottom: 30px;
 }
 
 #edit form #image-div {
@@ -555,22 +567,26 @@ header {
 	cursor: pointer;
 }
 
-#allProjetcts {
+#allProjects {
 	margin-top: 30px;
 	margin-bottom: 30px;
 	display: grid;
+	height: 480px;
+	max-height: 480px;
 	grid-template-columns: 2fr 2fr 2fr 2fr 2fr;
+	grid-template-rows: 2fr 2fr 2fr;
+	overflow: auto;
 	gap: 10px;
 	padding-bottom: 50px;
 	border-bottom: 1px solid gray;
 
 }
 
-#allProjetcts div {
+#allProjects div {
 	position: relative;
 }
 
-#allProjetcts div i {
+#allProjects div i {
 	position: absolute;
 	font-size: 15px;
 	border-radius: 5px;
@@ -582,12 +598,11 @@ header {
 	cursor: pointer;
 }
 
-#allProjetcts div img {
+#allProjects div img {
 	width: 100%;
 }
 
 button[id="valider"] {
-	margin-top: 50px;
 	background-color: grey;
 	cursor: not-allowed;
 }
@@ -614,4 +629,13 @@ label span:hover {
 
 form #image-div {
 	background-color: red;
+}
+
+#create-project img {
+	height: 120px;
+	width: auto;
+}
+
+#create-project #project-div {
+	margin-bottom: 20px;
 }

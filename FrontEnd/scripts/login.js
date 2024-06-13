@@ -3,24 +3,8 @@ const localStorage = window.localStorage;
 
 const nav = document.querySelectorAll("nav li");
 const navLink = document.querySelectorAll("nav a");
-let loginNav = undefined;
-let loginNavLink = undefined;
 
-if (localStorage.token !== undefined) window.location.href = "/FrontEnd/index.html";
-
-nav.forEach(element => {
-    if (element.innerText === "login") {
-        loginNav = element;
-    }
-});
-
-navLink.forEach(element => {
-    if (element.innerText === "login") {
-        loginNavLink = element;
-    }
-});
-
-
+if (localStorage.token !== undefined) window.location.href = "../index.html";
 
 loginDiv.addEventListener("submit", async event => {
     event.preventDefault();
@@ -39,41 +23,36 @@ loginDiv.addEventListener("submit", async event => {
     const email = loginMail.value;
     const password = loginPassword.value;
 
-    // [a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+
-
     const properties = {
         email: email,
         password: password,
     };
 
-
     const propertie = JSON.stringify(properties)
 
-    // if (bonMail !== email) return loginMail.setCustomValidity("L'adresse mail n'est pas bonne");
-    // if (bonPassword !== password) return loginPassword.setCustomValidity("Le mot de passe n'est pas bon");
+    try {
+        const reponse = await fetch("http://localhost:5678/api/users/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: propertie
+        });
 
-    let responseCode
-    const reponse = await fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: propertie
-    }).then(response => response.json()).then(data => {
-        responseCode = 200;
-        localStorage.setItem("token", data.token);
-    })
+        const errorText = document.querySelectorAll("#error");
 
-    const errorText = document.querySelectorAll("#login #error");
-
-    switch (responseCode) {
-        case 200:
-            window.location.href = "/FrontEnd/index.html";
-            break;
-        default:
-            errorText.forEach(element => {
-                element.style.display = "inline";
-            });
-            break;
-    };
+        switch (reponse.status) {
+            case 200:
+                reponse.json().then(data => localStorage.setItem("token", data.token))
+                window.location.href = "../index.html";
+                break;
+            default:
+                errorText.forEach(element => {
+                    element.style.display = "inline";
+                });
+                break;
+        };
+    } catch (error) {
+        console.log(error);
+    }
 });

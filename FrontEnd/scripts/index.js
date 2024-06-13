@@ -11,16 +11,10 @@ import * as login from "./log.js";
 const listeProjets = await fetch("http://localhost:5678/api/works");
 const projets = await listeProjets.json();
 
-const listeCategories = await fetch("http://localhost:5678/api/categories");
-const categories = await listeCategories.json();
+projects.startTests()
 
-//modules.startTests();
 projects.createProjets(projets);
 projects.createFilters();
 
 login.isConnected();
 login.listenLogoutLink();
-
-edit.editPopup()
-
-//modules.editPopup();

@@ -27,7 +27,7 @@ export function isConnected() {
 
     if (!localStorage.getItem("token")) {
         loginNav.innerText = "login";
-        loginNavLink.href = "/FrontEnd/pages/login.html";
+        loginNavLink.href = "pages/login.html";
         editMode(false)
         return false
     } else {

@@ -10,7 +10,7 @@ export function startTests() {
 export async function createProjets(projets) {
     const listeProjets = await fetch("http://localhost:5678/api/works");
 
-    if (projets === "edited") projets = await listeProjets.json();
+    if (!projets) projets = await listeProjets.json();
     
     const galleryPortfolio = document.querySelector(".gallery");
 
@@ -44,8 +44,6 @@ function listenProjets() {
 
     allProjets.forEach(element => {
         element.addEventListener("click", event => {
-            console.log(element.dataset);
-
         });
     });
 };
