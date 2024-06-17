@@ -1,5 +1,6 @@
 import {
-    createProjets
+    createProjets,
+    createFilters
 } from "./projects.js";
 
 // Donne ou retire l'accès aux outils d'éditions des projets
@@ -195,7 +196,6 @@ async function deleteProject(element) {
 
 function deleteProjectResponseListener(id) {
     const deleteProjectCover = document.querySelector(".delete-project-cover");
-    const deleteProjectPopup = document.querySelector("#delete-project");
     const deleteProjectButtons = document.querySelectorAll("#delete-project button");
 
     deleteProjectCover.addEventListener("click", event => {
@@ -210,6 +210,7 @@ function deleteProjectResponseListener(id) {
                 deleteProjectCover.remove();
                 createEditPopupHome();
                 createProjets();
+                createFilters();
             }
         });
     });
@@ -228,8 +229,6 @@ async function removeProject(id) {
 async function createEditPopupAjoutPhoto() {
     const listeCategories = await fetch("http://localhost:5678/api/categories");
     const categories = await listeCategories.json();
-
-    const cover = document.querySelector("#cover");
 
     const editPopupDiv = document.querySelector("#edit");
 
@@ -311,10 +310,10 @@ async function createEditPopupAjoutPhoto() {
         const option = document.createElement("option");
         option.setAttribute("value", element.name);
         option.innerHTML = element.name;
-        formDivCategorySelect.appendChild(option)
+        formDivCategorySelect.appendChild(option);
     }
 
-    formDivCategory.appendChild(formDivCategorySelect)
+    formDivCategory.appendChild(formDivCategorySelect);
     formDiv.appendChild(formDivCategory);
 
     const formDivButton = document.createElement("button");
@@ -335,11 +334,8 @@ async function editPopupAddPhotoListener() {
     const editCloseIcon = document.querySelector("#edit #close-icon");
     const editBackIcon = document.querySelector("#edit #back-icon");
     const editAddPhotoDiv = document.querySelector("#image-div");
-    const editAskAddPhotoDiv = document.querySelector("#image-div");
     const editFormDiv = document.querySelector("#form-div");
     const editForm = document.querySelector("#edit form");
-    const editInput = document.querySelectorAll("#edit input");
-    const editAddPhotoImg = document.querySelector("#image-div img");
 
     let imgValid = false;
     let titleValid = false;
@@ -362,7 +358,7 @@ async function editPopupAddPhotoListener() {
 
             for (let i = 0; i < acceptedFiles.length; i++) {
                 const element = acceptedFiles[i];
-                if (files[0].type.endsWith(element)) goodFileType = true
+                if (files[0].type.endsWith(element)) goodFileType = true;
             };
 
             const errorMessageExist = document.querySelector("#error-message");
@@ -370,24 +366,30 @@ async function editPopupAddPhotoListener() {
             if (!errorMessageExist) {
                 const errorMessage = document.createElement("p");
                 errorMessage.setAttribute("id", "error-message");
-                errorMessage.innerText = "Le type de fichier n'est pas bon."
-                if (goodFileType === false) editForm.insertBefore(errorMessage, editFormDiv)
+                errorMessage.innerText = "Le type de fichier n'est pas bon.";
+                if (goodFileType === false) editForm.insertBefore(errorMessage, editFormDiv);
             };
+
+            let addProjectImage = document.querySelector("#image-div img");
 
             if (goodFileType === true) {
                 if (errorMessageExist !== null) errorMessageExist.remove();
-                const addProjectImage = document.createElement("img");
-                input.files[0].text()
+
+                input.files[0].text();
 
                 let fr = new FileReader();
 
+                if (!addProjectImage) addProjectImage = document.createElement("img");
+                else addProjectImage.src = fr.result;
+
+
                 fr.onload = function () {
-                    addProjectImage.src = fr.result
+                    addProjectImage.src = fr.result;
                 }
-                fr.readAsDataURL(files[0])
+                fr.readAsDataURL(files[0]);
                 document.querySelector("#ajout-image-div").style.display = "none";
-                editAddPhotoDiv.appendChild(addProjectImage)
-                imgValid = true
+                editAddPhotoDiv.appendChild(addProjectImage);
+                imgValid = true;
                 isFormCompleted(imgValid, titleValid);
 
             };
@@ -400,7 +402,7 @@ async function editPopupAddPhotoListener() {
     });
 
     editCloseIcon.addEventListener("click", event => {
-        editCover.remove()
+        editCover.remove();
     });
 
     editBackIcon.addEventListener("click", event => {
@@ -413,6 +415,8 @@ async function editPopupAddPhotoListener() {
 function isFormCompleted(imgStatus, titleStatus) {
     const validAddProject = document.querySelector("#edit button");
     validAddProject.style.backgroundColor = "grey";
+    validAddProject.style.cursor = "not-allowed";
+    validAddProject.removeEventListener("click", popupConfirmCreate);
     if (imgStatus === true && titleStatus === true) {
         validAddProject.style.backgroundColor = "#1D6154";
         validAddProject.style.cursor = "pointer";
@@ -422,18 +426,11 @@ function isFormCompleted(imgStatus, titleStatus) {
 
 // Envois du projet au serveur
 async function sendProject() {
-
-    const editCover = document.querySelector("#cover");
-    const editCloseIcon = document.querySelector("#edit #close-icon");
-    const editBackIcon = document.querySelector("#edit #back-icon");
     const editAddPhotoDiv = document.querySelector("#ajout-image-div input");
-    const editFormDiv = document.querySelector("#form-div");
-    const editForm = document.querySelector("#edit form");
     const editInput = document.querySelector("#edit #form-div input");
     const editSelect = document.querySelector("#edit select");
-    const editAddPhotoImg = document.querySelector("#image-div img");
 
-    let category
+    let category;
 
     switch (editSelect.value.toLowerCase()) {
         case "objets":
@@ -472,6 +469,7 @@ async function sendProject() {
         })
         .then((result) => {
             createProjets();
+            createFilters();
             createEditPopupHome();
         });
 };
@@ -479,12 +477,6 @@ async function sendProject() {
 async function popupConfirmCreate(event) {
     event.preventDefault();
 
-    const editCover = document.querySelector("#cover");
-    const editCloseIcon = document.querySelector("#edit #close-icon");
-    const editBackIcon = document.querySelector("#edit #back-icon");
-    const editAddPhotoDiv = document.querySelector("#ajout-image-div input");
-    const editFormDiv = document.querySelector("#form-div");
-    const editForm = document.querySelector("#edit form");
     const editInput = document.querySelector("#edit #form-div input");
     const editSelect = document.querySelector("#edit select");
     const editAddPhotoImg = document.querySelector("#image-div img");
@@ -522,7 +514,7 @@ async function popupConfirmCreate(event) {
     createProjectCategory.innerText = `Catégorie : ${editSelect.value}`;
     createProjectDiv.appendChild(createProjectCategory);
 
-    logoutDiv.appendChild(createProjectDiv)
+    logoutDiv.appendChild(createProjectDiv);
 
     const logoutButtonYes = document.createElement("button");
     logoutButtonYes.setAttribute("id", "create-oui");
@@ -541,7 +533,6 @@ async function popupConfirmCreate(event) {
 
 function popupConfirmCreateListener() {
     const deleteProjectCover = document.querySelector(".create-project-cover");
-    const deleteProjectPopup = document.querySelector("#create-project");
     const deleteProjectButtons = document.querySelectorAll("#create-project button");
 
     deleteProjectCover.addEventListener("click", event => {

@@ -376,7 +376,7 @@ footer nav ul {
 	transform: translate(-50%, -50%);
 	text-align: center;
 	padding: 20px;
-	border-radius: 20px;
+	border-radius: 10px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
@@ -391,17 +391,18 @@ footer nav ul {
 }
 
 .popup h3 {
-	margin-top: 20px;
+	margin-top: 40px;
 	margin-bottom: 50px;
 }
 
 .popup button {
 	margin: 10px;
+	margin-top: 0;
 	width: 40%;
 	background-color: #1D6154;
 	color: white;
 	font-weight: 600;
-	padding: 5px;
+	padding: 10px;
 	padding-left: 20px;
 	padding-right: 20px;
 	border: #1D6154;
@@ -480,8 +481,8 @@ header {
 #edit form #image-div {
 	background-color: #E8F1F6;
 	cursor: pointer;
-	border-radius: 10px;
-	height: 180px;
+	border-radius: 2px;
+	height: 220px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -492,7 +493,7 @@ header {
 
 #edit form #image-div img {
 	object-fit: contain;
-	max-height: 180px;
+	max-height: 220px;
 }
 
 #edit form #image-div i {
@@ -508,6 +509,8 @@ header {
 	font-size: 20px;
 	background-color: #B9C5CC;
 	padding: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
 	border-radius: 20px;
 	width: fit-content;
 	margin-left: auto;
@@ -526,11 +529,12 @@ header {
 
 #edit form #form-div {
 	width: 100%;
-	margin-top: 20px;
+	margin-top: 50px;
 }
 
 #edit form #form-div label {
 	float: left;
+	font-weight: 600;
 }
 
 #edit form #form-div input {
@@ -625,10 +629,6 @@ label span {
 
 label span:hover {
 	background: #0d45a5;
-}
-
-form #image-div {
-	background-color: red;
 }
 
 #create-project img {

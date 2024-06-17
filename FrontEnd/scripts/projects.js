@@ -1,9 +1,3 @@
-// Temporaire
-export function startTests() {
-    console.log("-------------------- NEXT EN DESSOUS ------------------");
-    console.log("");
-};
-
 // Fonctions base du site
 
 // Creation de la liste des projets
@@ -51,9 +45,9 @@ function listenProjets() {
 // Creation de la liste des filtres
 export async function createFilters() {
     const divFiltres = document.querySelector("div.filtres");
+    divFiltres.innerHTML = "";
 
-    const listeProjets = await fetch("http://localhost:5678/api/works");
-    const projets = await listeProjets.json();
+
 
     const listeCategories = await fetch("http://localhost:5678/api/categories");
     const categories = await listeCategories.json();
@@ -78,12 +72,15 @@ export async function createFilters() {
         divFiltres.appendChild(filtre);
     }
 
-    listenFilters(projets);
+    listenFilters();
 
 };
 
 // Fonction d'écoute de clique et d'hover pour chaque filtre (avec fonction pour filter les projets)
-function listenFilters(projets) {
+async function listenFilters() {
+    const listeProjets = await fetch("http://localhost:5678/api/works");
+    const projets = await listeProjets.json();
+
     const filtresButtons = document.querySelectorAll(".filtres h3");
 
 

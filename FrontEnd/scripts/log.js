@@ -1,17 +1,77 @@
-import { editMode } from "./edit.js"
+import { editMode } from "./edit.js";
 
 // Fonctions Login / Logout
 
 // Création de la constante localStorage pour plus de facilité dans les différentes fonctions
 const localStorage = window.localStorage;
 
-// Regarde si la personne est connecté pour changer le lien login en logout, ainsi que donner l'accès aux outils d'éditions
-export function isConnected() {
-    const editingModeDiv = document.querySelector("#editing-mode");
+export function login() {
+    const loginDiv = document.querySelector("#login");
+    const localStorage = window.localStorage;
+
     const nav = document.querySelectorAll("nav li");
     const navLink = document.querySelectorAll("nav a");
-    let loginNav = undefined;
-    let loginNavLink = undefined;
+
+    if (localStorage.token !== undefined) window.location.href = "../index.html";
+
+    loginDiv.addEventListener("submit", async event => {
+        event.preventDefault();
+
+
+        const loginMail = document.querySelector("#login #email");
+        const loginPassword = document.querySelector("#login #password");
+
+        const loginInput = document.querySelectorAll("#login input");
+
+
+        loginInput.forEach(element => {
+            if (!element.id) return;
+        });
+
+        const email = loginMail.value;
+        const password = loginPassword.value;
+
+        const properties = {
+            email: email,
+            password: password,
+        };
+
+        const propertie = JSON.stringify(properties);
+
+        try {
+            const reponse = await fetch("http://localhost:5678/api/users/login", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: propertie
+            });
+
+            const errorText = document.querySelectorAll("#error");
+
+            switch (reponse.status) {
+                case 200:
+                    reponse.json().then(data => localStorage.setItem("token", data.token));
+                    window.location.href = "../index.html";
+                    break;
+                default:
+                    errorText.forEach(element => {
+                        element.style.display = "inline";
+                    });
+                    break;
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    });
+};
+
+// Regarde si la personne est connecté pour changer le lien login en logout, ainsi que donner l'accès aux outils d'éditions
+export function isConnected() {
+    const nav = document.querySelectorAll("nav li");
+    const navLink = document.querySelectorAll("nav a");
+    let loginNav;
+    let loginNavLink;
 
     nav.forEach(element => {
         if (element.innerText === "logout" || element.innerText === "login") {
@@ -28,13 +88,13 @@ export function isConnected() {
     if (!localStorage.getItem("token")) {
         loginNav.innerText = "login";
         loginNavLink.href = "pages/login.html";
-        editMode(false)
-        return false
+        editMode(false);
+        return false;
     } else {
         loginNav.innerText = "logout";
         loginNavLink.href = "javascript:";
-        editMode(true)
-        return true
+        editMode(true);
+        return true;
     };
 
 };
@@ -77,7 +137,6 @@ function askLogout() {
 // Ecoute ce qu'il se passe dans la popup de déconnection
 function listenLogout() {
     const logoutCover = document.querySelector("#cover");
-    const logoutDiv = document.querySelector("#logout");
     const logoutButtons = document.querySelectorAll("#logout button");
 
     logoutCover.addEventListener("click", event => {
@@ -104,8 +163,8 @@ function logoutAccount(logoutCover) {
 export function listenLogoutLink() {
     const nav = document.querySelectorAll("nav li");
     const navLink = document.querySelectorAll("nav a");
-    let loginNav = undefined;
-    let loginNavLink = undefined;
+    let loginNav;
+    let loginNavLink;
 
     nav.forEach(element => {
         if (element.innerText === "logout" || element.innerText === "login") {
